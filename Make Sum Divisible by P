@@ -1,0 +1,19 @@
+class Solution:
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        sm = sum(nums) % p
+        if sm == 0:
+            return 0
+
+        s = 0
+        pre = {0: -1}
+        res = len(nums)
+        for j, num in enumerate(nums):
+            s = (s + num) % p
+            i = pre.get((s - sm) % p)
+            if i is not None:
+                res = min(res, j - i)
+            pre[s] = j
+        
+        if res == len(nums):
+            return -1
+        return res
